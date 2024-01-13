@@ -78,10 +78,10 @@ jobs:
          - name: joined messages
            run: echo ${{toJSON(join(github.event.commits.*.message))}}
          - name: whole if condition is true
-           run: echo ${{(github.event_name == 'pull_request' && github.event.pull_request.merged == true) && !contains(join(github.event.commits.*.message), '#skip')}}
+           run: echo ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')}}
 
    versioning:
-      if: fromJSON((github.event_name == 'pull_request' && github.event.pull_request.merged == true) && !contains(join(github.event.commits.*.message), '#skip'))
+      if: fromJSON(github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip'))
       needs: [build_and_push_frontend, test_and_lint]
       runs-on: ubuntu-22.04
       permissions:
@@ -99,7 +99,7 @@ jobs:
               DEFAULT_BUMP: patch
 
    deploy_to_render:
-      if: fromJSON((github.event_name == 'pull_request' && github.event.pull_request.merged == true) && !contains(join(github.event.commits.*.message), '#skip'))
+      if: fromJSON(github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip'))
       runs-on: ubuntu-22.04
       needs: [build_and_push_frontend, test_and_lint]
       steps:
