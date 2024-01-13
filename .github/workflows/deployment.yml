@@ -5,6 +5,12 @@ on:
       branches: master
 
 jobs:
+   # We checkout the frontend repository, build it and push
+   # the build into our repository.
+   # Not sure how you'd actually do this without
+   # having to do some kind of manual work at some point.
+   # But, local copies do need to be updated anyway regularly,
+   # so I think this approach is reasonable.
    build_and_push_frontend:
       runs-on: ubuntu-22.04
       permissions:
@@ -23,6 +29,8 @@ jobs:
               path: frontend
          - name: Build frontend
            run: rm -rf ./backend/front && cd frontend && npm install && npm run build && cp -r ./dist ../backend/front
+         - name: Remove frontend
+           run: rm -rf ./backend/front && ls ./backend && ls ./backend/front
          - name: Commit and push built frontend to backend repository
 
            uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d
