@@ -36,12 +36,6 @@ jobs:
               commit_message: Automatic frontend push
               repository: ./backend
               file_pattern: "./front"
-
-         - name: Deploy to Render.com using deploy hook url
-           env:
-              deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
-           run: curl "$deploy_url"
-
          - name: List contents
            run: ls
          - name: List frontend contents
@@ -50,3 +44,26 @@ jobs:
            run: ls backend
          - name: List backend frontend build
            run: ls backend/front
+
+   test_and_lint:
+      runs-on: ubuntu-22.04
+      steps:
+         - uses: actions/setup-node@v4
+           with:
+              node-version: 21.1.0
+         - uses: actions/checkout@v4
+         - name: install
+           run: npm install
+         - name: lint automatic fix
+           run: npm run lint-fix
+         - name: lint
+           run: npm run lint-check
+
+   deploy_to_render:
+      runs-on: ubuntu-22.04
+      needs: [build_and_push_frontend, test_and_lint]
+      steps:
+         - name: Deploy to Render.com using deploy hook url
+           env:
+              deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
+           run: curl "$deploy_url"
