@@ -65,8 +65,6 @@ jobs:
            run: npm run lint-check
 
    versioning:
-      #      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} || ( ${{github.event_name == 'pull_request'}} && ${{github.event.pull_request.merged == 'true'}})
-      #      if: fromJSON(!contains(join(github.event.commits.*.message) , '#skip') || (github.event_name == 'pull_request' && github.event.pull_request.merged == 'true'))
       if: (github.event_name == 'pull_request' && github.event.pull_request.merged == 'true') && !contains(join(github.event.commits.*.message), '#skip')
       needs: [build_and_push_frontend, test_and_lint]
       runs-on: ubuntu-22.04
@@ -89,7 +87,7 @@ jobs:
            run: echo ${{github.event_name}}
 
    deploy_to_render:
-      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
+      if: (github.event_name == 'pull_request' && github.event.pull_request.merged == 'true') && !contains(join(github.event.commits.*.message), '#skip')
       runs-on: ubuntu-22.04
       needs: [build_and_push_frontend, test_and_lint]
       steps:
