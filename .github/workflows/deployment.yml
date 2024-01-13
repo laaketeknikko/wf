@@ -24,11 +24,12 @@ jobs:
          - name: Build frontend
            run: cd frontend && npm install && npm run build && cp -r ./dist ../backend/front
          - name: Commit and push built frontend to backend repository
+
            uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d
            with:
               commit_message: Automatic frontend push
-              file_pattern: "./backend/front"
-
+              repository: ./backend
+              file_pattern: "./front"
          - name: List contents
            run: ls
          - name: List frontend contents
