@@ -107,4 +107,20 @@ jobs:
            env:
               deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
            run: curl "$deploy_url"
+
+   discord_success_message:
+      if: success()
+      runs-on: ubuntu-22.04
+      needs: [deploy_to_render, versioning]
+      steps:
+         - name: Debug
+           run: echo "it was a success"
+
+   discord_failure_message:
+      if: failure()
+      runs-on: ubuntu-22.04
+      needs: [deploy_to_render, versioning]
+      steps:
+         - name: Debug
+           run: echo "It was a failure"
 ##########
