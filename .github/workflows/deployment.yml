@@ -85,7 +85,7 @@ jobs:
          - name: Debug printing
            run: echo ${{join(github.event.commits.*.message)}} && echo ${{!contains(join(github.event.commits.*.message) , '#skip') }} && echo ${{github.event.pull_request.merged == true}}
          - name: Debug printing
-           run: echo GITHUB_EVENT_NAME
+           run: echo ${{github.event_name}}
 
    deploy_to_render:
       if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
