@@ -82,8 +82,10 @@ jobs:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
               WITH_V: true
               DEFAULT_BUMP: patch
-         - name: Print conditions
+         - name: Debug printing
            run: echo ${{join(github.event.commits.*.message)}} && echo ${{!contains(join(github.event.commits.*.message) , '#skip') }} && echo ${{github.event.pull_request.merged == true}}
+         - name: Debug printing
+           run: echo GITHUB_EVENT_NAME
 
    deploy_to_render:
       if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
