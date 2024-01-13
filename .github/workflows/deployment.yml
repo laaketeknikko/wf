@@ -18,6 +18,8 @@ jobs:
               repository: laaketeknikko/renderfrontend
               token: ${{ secrets.READ_RENDERFRONTEND }}
               path: frontend
+         - name: List contents
+           run: ls
 
    list_frontend_contents:
       runs-on: ubuntu-22.04
