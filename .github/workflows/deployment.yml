@@ -8,6 +8,9 @@ jobs:
    build_and_push_frontend:
       runs-on: ubuntu-22.04
       steps:
+         - uses: actions/setup-node@v4
+           with:
+              node-version: 21.1.0
          - uses: actions/checkout@v4
            with:
               path: backend
@@ -16,7 +19,13 @@ jobs:
               repository: laaketeknikko/renderfrontend
               token: ${{ secrets.READ_RENDERFRONTEND }}
               path: frontend
+         - name: Build frontend
+           run: cd frontend && npm run build && cp -r ./dist ../backend/front
          - name: List contents
            run: ls
          - name: List frontend contents
            run: ls frontend
+         - name: List backend contents
+           run: ls backend
+         - name: List backend frontend build
+           run: ls backend/front
