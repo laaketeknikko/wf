@@ -64,6 +64,21 @@ jobs:
          - name: lint check
            run: npm run lint-check
 
+   debug_output:
+      runs-on: ubuntu-22.04
+      steps:
+         - uses: actions/checkout@v4
+         - name: github event name
+           run: echo ${{github.event_name}}
+         - name: pull request merged
+           run: echo ${{github.event.pull_request.merged}}
+         - name: not contains skip
+           run: echo ${{!contains(join(github.event.commits.*.message), '#skip')}}
+         - name: joined messages
+           run: echo ${{join(github.event.commits.*.message)}}
+         - name: whole if condition is true
+           run: echo ${{(github.event_name == 'pull_request' && github.event.pull_request.merged == 'true') && !contains(join(github.event.commits.*.message), '#skip')}}
+
    versioning:
       if: (github.event_name == 'pull_request' && github.event.pull_request.merged == 'true') && !contains(join(github.event.commits.*.message), '#skip')
       needs: [build_and_push_frontend, test_and_lint]
@@ -81,10 +96,6 @@ jobs:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
               WITH_V: true
               DEFAULT_BUMP: patch
-         - name: Debug printing
-           run: echo ${{join(github.event.commits.*.message)}} && echo ${{!contains(join(github.event.commits.*.message) , '#skip') }} && echo ${{github.event.pull_request.merged == 'true'}}
-         - name: Debug printing
-           run: echo ${{github.event_name}}
 
    deploy_to_render:
       if: (github.event_name == 'pull_request' && github.event.pull_request.merged == 'true') && !contains(join(github.event.commits.*.message), '#skip')
@@ -95,4 +106,4 @@ jobs:
            env:
               deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
            run: curl "$deploy_url"
-#####
+######
