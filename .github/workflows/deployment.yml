@@ -3,6 +3,9 @@ name: Deployment
 on:
    push:
       branches: master
+   pull_request:
+      branches: master
+      types: [opened, closed]
 
 jobs:
    # We checkout the frontend repository, build it and push
@@ -29,8 +32,10 @@ jobs:
               path: frontend
          - name: Build frontend
            run: rm -rf ./backend/front && cd frontend && npm install && npm run build && cp -r ./dist ../backend/front
-         - name: Commit and push built frontend to backend repository
-
+         - name:
+              Commit and push built frontend to backend repository
+              # Uses the GITHUB_TOKEN. Events triggered by GITHUB_TOKEN
+              # don't cause workflows to run, so we don't get infinite loop.
            uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d
            with:
               commit_message: Automatic frontend push
@@ -60,16 +65,16 @@ jobs:
            run: npm run lint-check
 
    versioning:
-      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }}
+      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
       needs: [build_and_push_frontend, test_and_lint]
       runs-on: ubuntu-22.04
       permissions:
          contents: write
       steps:
          - uses: actions/checkout@v4
-           #with:
-           #    ref: ${{github.event.pull_request.merge_commit_sha}}
-           #    fetch-depth: "0"
+           with:
+              ref: ${{github.event.pull_request.merge_commit_sha}}
+              fetch-depth: "0"
          - name: Bump version and create version tag
            uses: anothrNick/github-tag-action@a2c70ae13a881faf2b4953baaa9e49731997ab36
            env:
@@ -78,7 +83,7 @@ jobs:
               DEFAULT_BUMP: patch
 
    deploy_to_render:
-      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }}
+      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
       runs-on: ubuntu-22.04
       needs: [build_and_push_frontend, test_and_lint]
       steps:
