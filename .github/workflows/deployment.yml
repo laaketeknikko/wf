@@ -5,7 +5,8 @@ on:
       branches: master
    pull_request:
       branches: master
-      types: [opened, closed]
+      #types: [opened, closed]
+      types: [opened, synchronize]
 
 jobs:
    # We checkout the frontend repository, build it and push
