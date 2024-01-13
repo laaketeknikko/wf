@@ -65,7 +65,8 @@ jobs:
            run: npm run lint-check
 
    versioning:
-      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
+      #      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
+      if: ${{!contains(join(github.event.commits.*.message) , '#skip') }}
       needs: [build_and_push_frontend, test_and_lint]
       runs-on: ubuntu-22.04
       permissions:
@@ -81,6 +82,8 @@ jobs:
               GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
               WITH_V: true
               DEFAULT_BUMP: patch
+         - name: Print conditions
+           run: echo ${{join(github.event.commits.*.message)}} && echo ${{!contains(join(github.event.commits.*.message) , '#skip') }} && echo ${{github.event.pull_request.merged == true}}
 
    deploy_to_render:
       if: ${{!contains(join(github.event.commits.*.message) , '#skip') }} && ${{github.event.pull_request.merged == true}}
@@ -91,4 +94,4 @@ jobs:
            env:
               deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
            run: curl "$deploy_url"
-#
+##
