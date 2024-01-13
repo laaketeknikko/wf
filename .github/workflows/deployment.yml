@@ -5,14 +5,12 @@ on:
       branches: master
 
 jobs:
-   checkout_backend:
+   build_and_push_frontend:
       runs-on: ubuntu-22.04
       steps:
          - uses: actions/checkout@v4
-
-   checkout_frontend:
-      runs-on: ubuntu-22.04
-      steps:
+           with:
+              path: backend
          - uses: actions/checkout@v4
            with:
               repository: laaketeknikko/renderfrontend
@@ -20,10 +18,5 @@ jobs:
               path: frontend
          - name: List contents
            run: ls
-
-   list_frontend_contents:
-      runs-on: ubuntu-22.04
-      needs: [checkout_backend, checkout_frontend]
-      steps:
-         - name: List contents
-           run: ls
+         - name: List frontend contents
+           run: ls frontend
