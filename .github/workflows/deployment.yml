@@ -5,8 +5,13 @@ on:
       branches: master
 
 jobs:
+   checkout_backend:
+      runs-on: ubuntu-22.04
+      steps:
+         - uses: actions/checkout@v4
+
    checkout_frontend:
-      runs-on: ubuntu-20.04
+      runs-on: ubuntu-22.04
       steps:
          - uses: actions/checkout@v4
            with:
@@ -15,8 +20,8 @@ jobs:
               path: frontend
 
    list_frontend_contents:
-      runs-on: ubuntu-20.04
-      needs: checkout_frontend
+      runs-on: ubuntu-22.04
+      needs: [checkout_backend, checkout_frontend]
       steps:
          - name: List contents
-           run: ls frontend
+           run: ls
