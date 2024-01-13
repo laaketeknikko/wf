@@ -56,8 +56,26 @@ jobs:
            run: npm install
          - name: lint automatic fix
            run: npm run lint-fix
-         - name: lint
+         - name: lint check
            run: npm run lint-check
+
+   versioning:
+      #if: ${{!contains(join(github.event.commits.*.message) , '#skip') }}
+      needs: [build_and_push_frontend, test_and_lint]
+      runs-on: ubuntu-22.04
+      permissions:
+         contents: write
+      steps:
+         - uses: actions/checkout@v4
+           #with:
+           #    ref: ${{github.event.pull_request.merge_commit_sha}}
+           #    fetch-depth: "0"
+         - name: Bump version and create version tag
+           uses: anothrNick/github-tag-action@a2c70ae13a881faf2b4953baaa9e49731997ab36
+           env:
+              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+              WITH_V: true
+              DEFAULT_BUMP: patch
 
    deploy_to_render:
       runs-on: ubuntu-22.04
