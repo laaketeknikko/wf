@@ -7,6 +7,8 @@ on:
 jobs:
    build_and_push_frontend:
       runs-on: ubuntu-22.04
+      permissions:
+         contents: write
       steps:
          - uses: actions/setup-node@v4
            with:
@@ -21,6 +23,12 @@ jobs:
               path: frontend
          - name: Build frontend
            run: cd frontend && npm install && npm run build && cp -r ./dist ../backend/front
+         - name: Commit and push built frontend to backend repository
+           uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d
+           with:
+              commit_message: Automatic frontend push
+              file_pattern: "./backend/front"
+
          - name: List contents
            run: ls
          - name: List frontend contents
