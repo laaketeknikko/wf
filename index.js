@@ -62,7 +62,7 @@ app.get("/info", (request, response, next) => {
 })
 
 // Can do more involved checks like /healthcheck/database
-app.get("/healthcheck/serviceonline", (request, response, next) => {
+app.get("/healthcheck/serviceonline", (request, response) => {
    response.status(200).json("Service online.")
 })
 
