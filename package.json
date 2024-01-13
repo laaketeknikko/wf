@@ -1,27 +1,27 @@
 {
-  "name": "part3exercise",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "@powershell rm -r -force front && @powershell mkdir front && cd ../renderfrontend && @powershell rm -r -force dist && npm run build && @powershell Copy-Item dist/* -Recurse -force ../renderrepo/front",
-    "lint-check": "eslint .",
-    "lint-fix": "eslint . --fix"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "mongoose": "^8.0.2",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "dotenv": "^16.3.1",
-    "eslint": "^8.54.0",
-    "nodemon": "^3.0.1"
-  }
+   "name": "part3exercise",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "start": "node index.js",
+      "dev": "nodemon index.js",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build:ui": "@powershell rm -r -force front && @powershell mkdir front && cd ../renderfrontend && @powershell rm -r -force dist && npm run build && @powershell Copy-Item dist/* -Recurse -force ../renderrepo/front",
+      "lint-check": "eslint .",
+      "lint-fix": "eslint . --fix"
+   },
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.18.2",
+      "mongoose": "^8.0.2",
+      "morgan": "^1.10.0"
+   },
+   "devDependencies": {
+      "dotenv": "^16.3.1",
+      "eslint": "^8.54.0",
+      "nodemon": "^3.0.1"
+   }
 }

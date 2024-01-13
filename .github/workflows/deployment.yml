@@ -36,6 +36,12 @@ jobs:
               commit_message: Automatic frontend push
               repository: ./backend
               file_pattern: "./front"
+
+         - name: Deploy to Render.com using deploy hook url
+           env:
+              deploy_url: ${{secrets.RENDER_DEPLOY_HOOK_URL}}
+           run: curl "$deploy_url"
+
          - name: List contents
            run: ls
          - name: List frontend contents
