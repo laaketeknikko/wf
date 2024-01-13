@@ -20,7 +20,7 @@ jobs:
               token: ${{ secrets.READ_RENDERFRONTEND }}
               path: frontend
          - name: Build frontend
-           run: cd frontend && npm run build && cp -r ./dist ../backend/front
+           run: cd frontend && npm install && npm run build && cp -r ./dist ../backend/front
          - name: List contents
            run: ls
          - name: List frontend contents
