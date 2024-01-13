@@ -1,0 +1,12 @@
+name: Scheduled health check
+
+on:
+   schedule:
+      - cron: "00 8 * * *"
+
+jobs:
+   health_check:
+      runs-on: ubuntu-22.04
+      steps:
+         - name: Check healthcheck/serviceonline
+           run: curl "https://wf-vg4c.onrender.com/healthcheck/serviceonline"
