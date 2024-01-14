@@ -42,14 +42,6 @@ jobs:
               commit_message: Automatic frontend push
               repository: ./backend
               file_pattern: "./front"
-         - name: List contents
-           run: ls
-         - name: List frontend contents
-           run: ls frontend
-         - name: List backend contents
-           run: ls backend
-         - name: List backend frontend build
-           run: ls backend/front
 
    test_and_lint:
       runs-on: ubuntu-22.04
