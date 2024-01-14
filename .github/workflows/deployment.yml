@@ -113,14 +113,18 @@ jobs:
       runs-on: ubuntu-22.04
       needs: [deploy_to_render, versioning]
       steps:
-         - name: Debug
-           run: echo "it was a success"
+         - uses: sarisia/actions-status-discord@9904e3130b8905d5b973df25623f17672dcb3466
+           with:
+              webhook: ${{secrets.DISCORD_WEBHOOK}}
+              nodetail: true
 
    discord_failure_message:
       if: failure()
       runs-on: ubuntu-22.04
       needs: [deploy_to_render, versioning]
       steps:
-         - name: Debug
-           run: echo "It was a failure"
+         - uses: sarisia/actions-status-discord@9904e3130b8905d5b973df25623f17672dcb3466
+           with:
+              webhook: ${{secrets.DISCORD_WEBHOOK}}
+              title: "Build failed. Reason: ${{github.sha}}"
 ##########
