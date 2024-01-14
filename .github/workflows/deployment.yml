@@ -15,6 +15,9 @@ jobs:
    # having to do some kind of manual work at some point.
    # But, local copies do need to be updated anyway regularly,
    # so I think this approach is reasonable.
+   # For this exercise the frontend hasn't changed since
+   # the first push.
+   # Note that the frontend repository is private.
    build_and_push_frontend:
       runs-on: ubuntu-22.04
       permissions:
@@ -73,6 +76,8 @@ jobs:
            run: echo ${{github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')}}
 
    versioning:
+      # Spent hours fighting with if conditions, so not sure anymore what's
+      # required and what's not, but this seems to work.
       if: fromJSON(github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip'))
       needs: [build_and_push_frontend, test_and_lint]
       runs-on: ubuntu-22.04
