@@ -127,4 +127,5 @@ jobs:
            with:
               webhook: ${{secrets.DISCORD_WEBHOOK}}
               title: "Build failed. Reason: ${{github.sha}}"
+              nodetail: true
 ##########
